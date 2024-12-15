@@ -1,6 +1,8 @@
 package com.workintech.fswebs17d1.controller;
 
 import com.workintech.fswebs17d1.entity.Animal;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,11 +15,22 @@ import java.util.Map;
 public class AnimalController {
     private Map<Integer, Animal> animals;
 
-    @PostMapping
+    @Value("${project.developer.fullname}")
+    private String developerName;
+
+    @Value("${course.name}")
+    private String courseName;
+
+    @PostConstruct
     public void loadAll() {
         System.out.println("postconstruct çalıştı.");
         this.animals = new HashMap<>();
         this.animals.put(1, new Animal(1, "maymun"));
+    }
+
+    @GetMapping("/confin")
+    public String getCustomConfigValues() {
+        return developerName + " --- " + courseName;
     }
 
     @GetMapping
